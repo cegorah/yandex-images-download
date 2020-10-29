@@ -13,11 +13,14 @@ from dataclasses import dataclass
 from dataclasses_json import dataclass_json
 from math import floor
 from seleniumwire import webdriver
+from seleniumwire.webdriver import ChromeOptions, FirefoxOptions
 from typing import List, Union, Optional
 from urllib.parse import urlparse, urlencode
 from urllib3.exceptions import SSLError, NewConnectionError
 
-Driver = Union[webdriver.Chrome, webdriver.Edge, 
+Options = Union[ChromeOptions, FirefoxOptions]
+
+Driver = Union[webdriver.Chrome, webdriver.Edge,
                webdriver.Firefox, webdriver.Safari]
 
 DRIVER_NAME_TO_CLASS = {
@@ -28,10 +31,11 @@ DRIVER_NAME_TO_CLASS = {
 }  # type: Dict[str, Driver]
 
 
-def get_driver(name: str, path: Optional[str]) -> Driver:
+def get_driver(name: str, path: Optional[str], options: Optional[Options] = None) -> Driver:
     driver_class = DRIVER_NAME_TO_CLASS[name]
     args = {'executable_path': path} if path else {}
-
+    if options:
+        args['options'] = options
     return driver_class(**args)
 
 
@@ -359,7 +363,7 @@ class YandexImagesDownloader():
         actual_last_page = 1 + floor(
             self.limit / YandexImagesDownloader.MAXIMUM_IMAGES_PER_PAGE)
 
-        logging.info(f"  Found {last_page+1} pages of {keyword}.")
+        logging.info(f"  Found {last_page + 1} pages of {keyword}.")
 
         # Getting all images.
         imgs_count = 0
@@ -372,7 +376,7 @@ class YandexImagesDownloader():
             if page > actual_last_page:
                 actual_last_page += 1
 
-            logging.info(f"  Scrapping page {page+1}/{actual_last_page}...")
+            logging.info(f"  Scrapping page {page + 1}/{actual_last_page}...")
 
             page_result = self.download_images_by_page(keyword, page,
                                                        imgs_count,

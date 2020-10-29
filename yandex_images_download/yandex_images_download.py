@@ -20,7 +20,11 @@ def scrap(args):
         with open(args.keywords_from_file, "r") as f:
             keywords.extend([line.strip() for line in f])
 
-    driver = get_driver(args.browser, args.driver_path)
+    # TODO parse it correctly
+    from seleniumwire.webdriver import ChromeOptions
+    opt = ChromeOptions()
+    opt.headless = True
+    driver = get_driver(args.browser, args.driver_path, options=opt)
 
     try:
         pool = Pool(args.num_workers) if (args.num_workers) else None
