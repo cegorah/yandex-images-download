@@ -24,7 +24,8 @@ def scrap(args):
     opt = None
     if args.options:
         opt = FirefoxOptions() if args.browser == "Firefox" else ChromeOptions()
-        for o in args.options:
+        op_list = [str(item).strip() for item in args.options.split(",") if len(item)]
+        for o in op_list:
             opt.add_argument(o)
 
     driver = get_driver(args.browser, args.driver_path, options=opt)
