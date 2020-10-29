@@ -18,8 +18,6 @@ from typing import List, Union, Optional
 from urllib.parse import urlparse, urlencode
 from urllib3.exceptions import SSLError, NewConnectionError
 
-Options = Union[ChromeOptions, FirefoxOptions]
-
 Driver = Union[webdriver.Chrome, webdriver.Edge,
                webdriver.Firefox, webdriver.Safari]
 
@@ -31,7 +29,7 @@ DRIVER_NAME_TO_CLASS = {
 }  # type: Dict[str, Driver]
 
 
-def get_driver(name: str, path: Optional[str], options: Optional[Options] = None) -> Driver:
+def get_driver(name: str, path: Optional[str], options: Optional[str]) -> Driver:
     driver_class = DRIVER_NAME_TO_CLASS[name]
     args = {'executable_path': path} if path else {}
     if options:

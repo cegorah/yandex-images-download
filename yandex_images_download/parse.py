@@ -12,6 +12,18 @@ def parse_args():
                         type=str,
                         choices=list(DRIVER_NAME_TO_CLASS))
 
+    parser.add_argument("-fopt",
+                        "--firefox_options",
+                        help=("list of options for firefox"),
+                        type=str
+                        )
+
+    parser.add_argument("-copt",
+                        "--chrome_options",
+                        help=("list of options for chrome"),
+                        type=str
+                        )
+
     parser.add_argument("-dp",
                         "--driver-path",
                         help=("path to brower's WebDriver"),

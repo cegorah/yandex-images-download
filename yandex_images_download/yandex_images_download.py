@@ -6,6 +6,7 @@ import sys
 from multiprocessing import Pool
 from .downloader import YandexImagesDownloader, get_driver, download_single_image, save_json
 from .parse import parse_args
+from seleniumwire.webdriver import ChromeOptions, FirefoxOptions
 
 
 def scrap(args):
@@ -20,10 +21,14 @@ def scrap(args):
         with open(args.keywords_from_file, "r") as f:
             keywords.extend([line.strip() for line in f])
 
-    # TODO parse it correctly
-    from seleniumwire.webdriver import ChromeOptions
-    opt = ChromeOptions()
-    opt.headless = True
+    opt = None
+    if args.firefox_options:
+        opt = FirefoxOptions()
+    elif args.chrome_options:
+        opt = FirefoxOptions()
+
+    # opt = ChromeOptions()
+    # opt.headless = True
     driver = get_driver(args.browser, args.driver_path, options=opt)
 
     try:
