@@ -22,13 +22,11 @@ def scrap(args):
             keywords.extend([line.strip() for line in f])
 
     opt = None
-    if args.firefox_options:
-        opt = FirefoxOptions()
-    elif args.chrome_options:
-        opt = FirefoxOptions()
+    if args.options:
+        opt = FirefoxOptions() if args.browser == "Firefox" else ChromeOptions()
+        for o in args.options:
+            opt.add_argument(o)
 
-    # opt = ChromeOptions()
-    # opt.headless = True
     driver = get_driver(args.browser, args.driver_path, options=opt)
 
     try:
