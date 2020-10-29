@@ -13,15 +13,17 @@ def parse_args():
                         choices=list(DRIVER_NAME_TO_CLASS))
 
     parser.add_argument("-fopt",
-                        "--firefox_options",
+                        "--firefox-options",
                         help=("list of options for firefox"),
-                        type=str
+                        type=str,
+                        default=None
                         )
 
     parser.add_argument("-copt",
-                        "--chrome_options",
+                        "--chrome-options",
                         help=("list of options for chrome"),
-                        type=str
+                        type=str,
+                        default=None
                         )
 
     parser.add_argument("-dp",
